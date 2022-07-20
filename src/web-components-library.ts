@@ -31,18 +31,21 @@ export class MyPartyListApp extends LitElement {
       align-items: center;
       background-image: url(./assets/background.png);
       display: flex;
+      flex-direction: column;
       font-family: "Neucha",sans-serif;
+      font-size: 1.25rem;
       height: 100vh;
       justify-content: center;
     }
 
-    h1, h2 {
+    h1, h2, p {
       margin-block-start: 0;
       margin-block-end: 0;
     }
 
     section {
       inline-size: 100%;
+      margin-block-end: 10px;
     }
 
     .card {
@@ -61,10 +64,6 @@ export class MyPartyListApp extends LitElement {
       margin-bottom: 10px;
     }
 
-    .card-description {
-      font-size: 1.2rem;
-    }
-
     .form-title {
       margin-block-end: 10px;
     }
@@ -72,18 +71,27 @@ export class MyPartyListApp extends LitElement {
     .form-field {
       margin-block-end: 20px;
     }
+
+    .empty-list-message {
+      margin-block-start: 10px;
+    }
+
+    .small {
+      font-size: 1.25rem;
+      margin-block-start: 30px;
+    }
   `];
 
   render() {
     return html`
     <main>
       <div class="card">
-        <section class="hero-section">
+        <section>
           <h1 class="card-title">My party list!</h1>
           <h2 class="card-subtitle">Nice looking guest list</h2>
           <p class="card-description">Notice that the card width in this example have been set to 20rem, otherwise it will try to fill the current container/row where the card is.</p>
         </section>
-        <section class="guest-form-section">
+        <section>
           <h2 class="form-title">Party Guest</h2>
           <form>
             <div class="form-field">
@@ -98,7 +106,12 @@ export class MyPartyListApp extends LitElement {
           </form>
           </form>
         </section>
+        <section>
+          <h2>Guests</h2>
+          <p class="empty-list-message">Sorry, but your list is empty :(</p>
+        </section>
       </div>
+      <small class="small">powered by <a href="https://www.getpapercss.com/" target="_blank" rel="noreferrer noopener">PaperCSS</a></small>
     </main>
     `;
   }
