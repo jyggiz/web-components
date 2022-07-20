@@ -16,18 +16,41 @@ export class MyPartyListApp extends LitElement {
       justify-content: center;
     }
 
-    div {
-      width: 400px;
-      height: 400px;
+    h1, h2 {
+      margin-block-start: 0;
+      margin-block-end: 0;
+    }
+
+    .card {
+      align-items: center;
       background-color: white;
+      display: flex;
+      flex-direction: column;
+      min-inline-size: 600px;
+      max-inline-size: 600px;
+      padding: 20px;
+      justify-content: center;
+    }
+
+    .card-subtitle {
+      color: #0071de;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .card-description {
+      font-family: "Neucha",sans-serif;
+      font-size: 1.2rem;
     }
   `];
 
   render() {
     return html`
     <main>
-      <div>
+      <div class="card">
         <h1 class="card-title">My party list!</h1>
+        <h2 class="card-subtitle">Nice looking guest list</h2>
+        <p class="card-description">Notice that the card width in this example have been set to 20rem, otherwise it will try to fill the current container/row where the card is.</p>
       </div>
     </main>
     `;
