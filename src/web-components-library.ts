@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, nothing } from 'lit';
 import { property, customElement, state } from 'lit/decorators.js';
 
 import { styles } from './styles';
@@ -10,12 +10,9 @@ type Guest = {
 
 @customElement('my-party-list')
 export class MyPartyListApp extends LitElement {
-  @property({ type: String }) title = 'My app';
+  @property({ type: Boolean, attribute: 'display-guest-number' }) displayGuestNumber = false;
 
-  @state() guests: ReadonlyArray<Guest> = [{
-    name: 'Timur',
-    phone: '+77080070079'
-  }];
+  @state() guests: ReadonlyArray<Guest> = [];
   @state() currentGuestName: string = '';
   @state() currentGuestPhone: string = '';
 
@@ -73,6 +70,41 @@ export class MyPartyListApp extends LitElement {
       font-size: 1.25rem;
       margin-block-start: 30px;
     }
+
+    .guest-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .checkbox {
+      display: inline;
+      margin-inline-end: 5px;
+    }
+
+    @media print {
+      main {
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+
+      .card {
+        inline-size: 650px;
+        border: 2px solid black;
+      }
+
+      .checkbox-field {
+        display: none;
+      }
+
+      .border {
+        border: none;
+      }
+
+      section:not(.guests-list) {
+        display: none;
+      }
+    }
   `];
 
   changeName(event: Event) {
@@ -99,12 +131,17 @@ export class MyPartyListApp extends LitElement {
     this.currentGuestPhone = '';
   }
 
+  toggleDisplayGuestNumber(event: Event) {
+    const input = event?.target as HTMLInputElement;
+    this.displayGuestNumber = input.checked;
+  }
+
   render() {
     const guestList = this.guests.length > 0
       ? html`<table class="border border-primary">
         <thead>
           <tr>
-            <th>#</th>
+            ${this.displayGuestNumber ? html`<th>#</th>` : nothing}
             <th>Name</th>
             <th>Tel</th>
           </tr>
@@ -113,7 +150,7 @@ export class MyPartyListApp extends LitElement {
           ${this.guests.map((guest, index) => 
             html`
               <tr>
-                <td>${index + 1}</td>
+              ${this.displayGuestNumber ? html`<td>${index + 1}</td>` : nothing}
                 <td>${guest.name}</td>
                 <td>${guest.phone}</td>
               </tr>
@@ -146,12 +183,15 @@ export class MyPartyListApp extends LitElement {
           </form>
           </form>
         </section>
-        <section>
-          <h2>Guests</h2>
+        <section class="guests-list">
+          <div class="guest-list-header">
+            <h2>Guests</h2>
+            <label class="checkbox-field"><input type="checkbox" class="checkbox" ?checked=${this.displayGuestNumber} @input=${this.toggleDisplayGuestNumber}>Show/Hide guest number</label>
+          </div>
           ${guestList}
         </section>
       </div>
-      <small class="small">powered by <a href="https://www.getpapercss.com/" target="_blank" rel="noreferrer noopener">PaperCSS</a></small>
+      <small class="small">powered by <a href="https://jyggiz.github.io/" target="_blank" rel="noreferrer noopener">Jyggiz</a> & <a href="https://www.getpapercss.com/" target="_blank" rel="noreferrer noopener">PaperCSS</a></small>
     </main>
     `;
   }
