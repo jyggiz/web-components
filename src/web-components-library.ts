@@ -16,6 +16,8 @@ export class MyPartyListApp extends LitElement {
     name: 'Timur',
     phone: '+77080070079'
   }];
+  @state() currentGuestName: string = '';
+  @state() currentGuestPhone: string = '';
 
   static styles = [styles, css`
     :host main {
@@ -73,6 +75,30 @@ export class MyPartyListApp extends LitElement {
     }
   `];
 
+  changeName(event: Event) {
+    const input = event?.target as HTMLInputElement;
+    this.currentGuestName = input.value;
+  }
+
+  changePhone(event: Event) {
+    const input = event?.target as HTMLInputElement;
+    this.currentGuestPhone = input.value;
+  }
+
+  addGuest() {
+    if (!this.currentGuestName) {
+      return;
+    }
+
+    if (!this.currentGuestPhone) {
+      return;
+    }
+
+    this.guests = [...this.guests, { name: this.currentGuestName, phone: this.currentGuestPhone }];
+    this.currentGuestName = '';
+    this.currentGuestPhone = '';
+  }
+
   render() {
     const guestList = this.guests.length > 0
       ? html`<table class="border border-primary">
@@ -110,13 +136,13 @@ export class MyPartyListApp extends LitElement {
           <form>
             <div class="form-field">
               <label for="name">Name(required)</label>
-              <input id="name" type="text">
+              <input id="name" type="text" @input=${this.changeName} .value=${this.currentGuestName}>
             </div>
             <div class="form-field">
               <label for="phone">Phone(required)</label>
-              <input id="phone" type="text">
+              <input id="phone" type="text" @input=${this.changePhone} .value=${this.currentGuestPhone}>
             </div>
-            <button type="submit" class="btn-secondary">Add guest</button>
+            <button @click=${this.addGuest}  type="button" class="btn-secondary">Add guest</button>
           </form>
           </form>
         </section>
