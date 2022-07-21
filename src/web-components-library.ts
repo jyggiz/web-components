@@ -1,30 +1,21 @@
 import { LitElement, html, css } from 'lit';
-import { property, customElement } from 'lit/decorators.js';
+import { property, customElement, state } from 'lit/decorators.js';
 
 import { styles } from './styles';
 
-type Field = Pick<HTMLInputElement, 'id' | 'required' | 'type'> & {
-  label: string;
-};
-
-const fields: ReadonlyArray<Field> = [
-  {
-    label: 'name',
-    id: 'name',
-    required: true,
-    type: 'text'
-  },
-  {
-    label: 'name',
-    id: 'name',
-    required: true,
-    type: 'text'
-  }
-]
+type Guest = {
+  name: string;
+  phone: string;
+}
 
 @customElement('my-party-list')
 export class MyPartyListApp extends LitElement {
   @property({ type: String }) title = 'My app';
+
+  @state() guests: ReadonlyArray<Guest> = [{
+    name: 'Timur',
+    phone: '+77080070079'
+  }];
 
   static styles = [styles, css`
     :host main {
@@ -83,6 +74,29 @@ export class MyPartyListApp extends LitElement {
   `];
 
   render() {
+    const guestList = this.guests.length > 0
+      ? html`<table class="border border-primary">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Tel</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${this.guests.map((guest, index) => 
+            html`
+              <tr>
+                <td>${index + 1}</td>
+                <td>${guest.name}</td>
+                <td>${guest.phone}</td>
+              </tr>
+            `  
+          )}
+        </tbody>
+      </table>`
+      : html`<p class="empty-list-message">Sorry, but your list is empty :(</p>`;
+
     return html`
     <main>
       <div class="card">
@@ -108,7 +122,7 @@ export class MyPartyListApp extends LitElement {
         </section>
         <section>
           <h2>Guests</h2>
-          <p class="empty-list-message">Sorry, but your list is empty :(</p>
+          ${guestList}
         </section>
       </div>
       <small class="small">powered by <a href="https://www.getpapercss.com/" target="_blank" rel="noreferrer noopener">PaperCSS</a></small>
