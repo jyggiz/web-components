@@ -141,6 +141,14 @@ export class MyPartyListApp extends LitElement {
     this.displayGuestNumber = input.checked;
   }
 
+  deleteGuest(index: number) {
+    if (this.guests.length < index + 1) {
+      return;
+    }
+
+    this.guests = this.guests.filter((_, currentGuestIndex) => index !== currentGuestIndex);
+  }
+
   render() {
     const guestList = this.guests.length > 0
       ? html`<table class="border border-primary">
@@ -159,7 +167,7 @@ export class MyPartyListApp extends LitElement {
                 <td class="column">${guest.name}</td>
                 <td class="column">${guest.phone}</td>
                 <td class="column">
-                  <button class="" aria-label="Delete ${guest.name} from guest list">X</button>
+                  <button @click=${() => this.deleteGuest(index)} aria-label="Delete ${guest.name} from guest list">X</button>
                 </td>
               </tr>
             `  
