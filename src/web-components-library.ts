@@ -82,6 +82,11 @@ export class MyPartyListApp extends LitElement {
       margin-inline-end: 5px;
     }
 
+    .column {
+      text-align: center;
+      vertical-align: baseline;
+    }
+
     @media print {
       main {
         align-items: flex-start;
@@ -136,23 +141,34 @@ export class MyPartyListApp extends LitElement {
     this.displayGuestNumber = input.checked;
   }
 
+  deleteGuest(index: number) {
+    if (this.guests.length < index + 1) {
+      return;
+    }
+
+    this.guests = this.guests.filter((_, currentGuestIndex) => index !== currentGuestIndex);
+  }
+
   render() {
     const guestList = this.guests.length > 0
       ? html`<table class="border border-primary">
         <thead>
           <tr>
-            ${this.displayGuestNumber ? html`<th>#</th>` : nothing}
-            <th>Name</th>
-            <th>Tel</th>
+            ${this.displayGuestNumber ? html`<th class="column">#</th>` : nothing}
+            <th class="column">Name</th>
+            <th class="column">Tel</th>
           </tr>
         </thead>
         <tbody>
           ${this.guests.map((guest, index) => 
             html`
               <tr>
-              ${this.displayGuestNumber ? html`<td>${index + 1}</td>` : nothing}
-                <td>${guest.name}</td>
-                <td>${guest.phone}</td>
+              ${this.displayGuestNumber ? html`<td class="column">${index + 1}</td>` : nothing}
+                <td class="column">${guest.name}</td>
+                <td class="column">${guest.phone}</td>
+                <td class="column">
+                  <button @click=${() => this.deleteGuest(index)} aria-label="Delete ${guest.name} from guest list">X</button>
+                </td>
               </tr>
             `  
           )}
