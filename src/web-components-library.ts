@@ -11,6 +11,8 @@ type Guest = {
 @customElement('my-party-list')
 export class MyPartyListApp extends LitElement {
   @property({ type: Boolean, attribute: 'display-guest-number' }) displayGuestNumber = false;
+  @property({ type: String, attribute: 'author-link-copy' }) authorLinkCopy = '';
+  @property({ type: String, attribute: 'author-link-url' }) authorLinkUrl = '';
 
   @state() guests: ReadonlyArray<Guest> = [];
   @state() currentGuestName: string = '';
@@ -176,6 +178,12 @@ export class MyPartyListApp extends LitElement {
       </table>`
       : html`<p class="empty-list-message">Sorry, but your list is empty :(</p>`;
 
+    const authorLink = this.authorLinkCopy && this.authorLinkUrl
+      ? html`
+          <a href="${this.authorLinkUrl}" target="_blank" rel="noreferrer noopener">${this.authorLinkCopy}</a> & 
+        `
+      : nothing;
+
     return html`
     <main>
       <div class="card">
@@ -207,7 +215,9 @@ export class MyPartyListApp extends LitElement {
           ${guestList}
         </section>
       </div>
-      <small class="small">powered by <a href="https://jyggiz.github.io/" target="_blank" rel="noreferrer noopener">Jyggiz</a> & <a href="https://www.getpapercss.com/" target="_blank" rel="noreferrer noopener">PaperCSS</a></small>
+      <small class="small">
+        powered by ${authorLink}
+        <a href="https://www.getpapercss.com/" target="_blank" rel="noreferrer noopener">PaperCSS</a></small>
     </main>
     `;
   }
