@@ -190,7 +190,7 @@ export class MyPartyListApp extends LitElement {
         <section>
           <h1 class="card-title">My party list!</h1>
           <h2 class="card-subtitle">Nice looking guest list</h2>
-          <p class="card-description">Notice that the card width in this example have been set to 20rem, otherwise it will try to fill the current container/row where the card is.</p>
+          <p class="card-description">Make your stylish guest list for your incredible party with My Party List! It is also possible to print it in a convenient format!</p>
         </section>
         <section>
           <h2 class="form-title">Party Guest</h2>
